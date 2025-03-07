@@ -60,26 +60,39 @@ function App() {
         ...scores,
         player1: scores.player1 - inputWord.length
       })
+      setCurrentPlayer("Player 2");
     } else {
       setScores({
         ...scores,
-        payer2: scores.player2 - inputWord.length
+        player2: scores.player2 - inputWord.length
       });
+      setCurrentPlayer("Player 1");
     }
-    setCurrentPlayer("Player 2");
+    
     setStartingChar(inputWord[inputWord.length - 1]);
     setInputWord("");
   }
 
   const handleReset = () => {
     // resent all the state
+    setInputWord("");
+    setWords([]);
+    setError(null);
+    setCurrentPlayer("Player 1");
+    setTimer(10);
+    setWinner(null);
+    setStartingChar('a');
+    setScores({
+      player1: 50,
+      player2: 50
+    })
   }
 
   useEffect(() => {
     if (scores.player1 <= 0) {
       setWinner("Player 1")
     }
-  
+
     if (scores.player2 <= 0) {
       setWinner("Player 2")
     }
@@ -110,9 +123,9 @@ function App() {
               <p key={word}>{word}</p>
             ))}
           </div>
-            <div>
-              Scores: Player 1: {scores.player1} Player 2: {scores.player2}
-            </div>
+          <div>
+            Scores: Player 1: {scores.player1} Player 2: {scores.player2}
+          </div>
           <h1>turn: {currentPlayer}</h1>
           <p>Word must start with: {startingChar}</p>
           {error && <p style={{ color: "red" }}>{error}</p>}
